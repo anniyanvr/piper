@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.creactiviti.piper.core.messenger;
+package com.creactiviti.piper.core.messagebroker;
 
 import com.creactiviti.piper.core.error.Retryable;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
 
 import java.util.concurrent.TimeUnit;
 
-public class KafkaMessenger implements Messenger {
+public class KafkaMessageBroker implements MessageBroker {
 
   private KafkaTemplate<Integer, Object> kafkaTemplate;
 

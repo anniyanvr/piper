@@ -20,8 +20,8 @@ import com.creactiviti.piper.core.context.JdbcContextRepository;
 import com.creactiviti.piper.core.job.JdbcJobRepository;
 import com.creactiviti.piper.core.job.Job;
 import com.creactiviti.piper.core.job.JobStatus;
-import com.creactiviti.piper.core.messenger.Queues;
-import com.creactiviti.piper.core.messenger.SynchMessenger;
+import com.creactiviti.piper.core.messagebroker.Queues;
+import com.creactiviti.piper.core.messagebroker.SynchMessageBroker;
 import com.creactiviti.piper.core.pipeline.ResourceBasedPipelineRepository;
 import com.creactiviti.piper.core.task.DefaultTaskHandlerResolver;
 import com.creactiviti.piper.core.task.JdbcTaskExecutionRepository;
@@ -46,12 +46,12 @@ public class CoordinatorTests {
     Worker worker = new Worker();
     Coordinator coordinator = new Coordinator ();
    
-    SynchMessenger messenger = new SynchMessenger();
-    messenger.receive(Queues.COMPLETIONS, (o)->coordinator.complete((TaskExecution)o));
-    messenger.receive(Queues.JOBS, (o)->coordinator.start((Job)o));
+    SynchMessageBroker messageBroker = new SynchMessageBroker();
+    messageBroker.receive(Queues.COMPLETIONS, (o)->coordinator.complete((TaskExecution)o));
+    messageBroker.receive(Queues.JOBS, (o)->coordinator.start((Job)o));
     
     
-    worker.setMessenger(messenger);
+    worker.setMessageBroker(messageBroker);
     worker.setEventPublisher((e)->{});
     DefaultTaskHandlerResolver taskHandlerResolver = new DefaultTaskHandlerResolver();
     
@@ -84,9 +84,9 @@ public class CoordinatorTests {
     coordinator.setPipelineRepository(new ResourceBasedPipelineRepository());
     coordinator.setJobTaskRepository(taskRepository);
     
-    SynchMessenger coordinatorMessenger = new SynchMessenger();
-    coordinatorMessenger.receive(Queues.TASKS, (o)->worker.handle((TaskExecution)o));
-    WorkTaskDispatcher taskDispatcher = new WorkTaskDispatcher(coordinatorMessenger);
+    SynchMessageBroker coordinatorMessageBroker = new SynchMessageBroker();
+    coordinatorMessageBroker.receive(Queues.TASKS, (o)->worker.handle((TaskExecution)o));
+    WorkTaskDispatcher taskDispatcher = new WorkTaskDispatcher(coordinatorMessageBroker);
     coordinator.setTaskDispatcher(taskDispatcher);
     coordinator.setEventPublisher((e)->{});
     
@@ -105,7 +105,7 @@ public class CoordinatorTests {
     taskCompletionHandler.setPipelineRepository(new ResourceBasedPipelineRepository());
     taskCompletionHandler.setEventPublisher((e)->{});
     coordinator.setTaskCompletionHandler(taskCompletionHandler);
-    coordinator.setMessenger(messenger);
+    coordinator.setMessageBroker(coordinatorMessageBroker);
         
     Job job = coordinator.create(MapObject.of(ImmutableMap.of("pipelineId","demo/hello","inputs",Collections.singletonMap("yourName","me"))));
     

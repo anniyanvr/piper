@@ -38,8 +38,8 @@ import com.creactiviti.piper.core.job.Job;
 import com.creactiviti.piper.core.job.JobRepository;
 import com.creactiviti.piper.core.job.JobStatus;
 import com.creactiviti.piper.core.job.SimpleJob;
-import com.creactiviti.piper.core.messenger.Messenger;
-import com.creactiviti.piper.core.messenger.Queues;
+import com.creactiviti.piper.core.messagebroker.MessageBroker;
+import com.creactiviti.piper.core.messagebroker.Queues;
 import com.creactiviti.piper.core.pipeline.Pipeline;
 import com.creactiviti.piper.core.pipeline.PipelineRepository;
 import com.creactiviti.piper.core.task.CancelTask;
@@ -68,7 +68,7 @@ public class Coordinator {
   private ErrorHandler errorHandler;
   private TaskCompletionHandler taskCompletionHandler;
   private JobExecutor jobExecutor; 
-  private Messenger messenger;
+  private MessageBroker messageBroker;
   
   private static final String PIPELINE_ID = "pipelineId";
   private static final String TAGS = "tags";
@@ -119,7 +119,7 @@ public class Coordinator {
     
     eventPublisher.publishEvent(PiperEvent.of(Events.JOB_STATUS,"jobId",job.getId(),"status",job.getStatus()));
     
-    messenger.send(Queues.JOBS, job);
+    messageBroker.send(Queues.JOBS, job);
 
     return job;
   }
@@ -264,8 +264,8 @@ public class Coordinator {
     jobExecutor = aJobExecutor;
   }
   
-  public void setMessenger(Messenger aMessenger) {
-    messenger = aMessenger;
+  public void setMessageBroker(MessageBroker aMessageBroker) {
+    messageBroker = aMessageBroker;
   }
   
 }

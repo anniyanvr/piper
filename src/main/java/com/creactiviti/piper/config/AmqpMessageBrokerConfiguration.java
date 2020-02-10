@@ -44,15 +44,15 @@ import org.springframework.context.annotation.Configuration;
 import com.creactiviti.piper.core.Coordinator;
 import com.creactiviti.piper.core.Worker;
 import com.creactiviti.piper.core.event.EventListener;
-import com.creactiviti.piper.core.messenger.AmqpMessenger;
-import com.creactiviti.piper.core.messenger.Exchanges;
-import com.creactiviti.piper.core.messenger.Queues;
+import com.creactiviti.piper.core.messagebroker.AmqpMessageBroker;
+import com.creactiviti.piper.core.messagebroker.Exchanges;
+import com.creactiviti.piper.core.messagebroker.Queues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableConfigurationProperties(PiperProperties.class)
-@ConditionalOnProperty(name="piper.messenger.provider",havingValue="amqp")
-public class AmqpMessengerConfiguration implements RabbitListenerConfigurer {
+@ConditionalOnProperty(name="piper.message-broker.provider",havingValue="amqp")
+public class AmqpMessageBrokerConfiguration implements RabbitListenerConfigurer {
   
   @Autowired(required=false)
   private Worker worker;
@@ -80,10 +80,10 @@ public class AmqpMessengerConfiguration implements RabbitListenerConfigurer {
   }
   
   @Bean
-  AmqpMessenger amqpMessenger (AmqpTemplate aAmqpTemplate) {
-    AmqpMessenger amqpMessenger = new AmqpMessenger();
-    amqpMessenger.setAmqpTemplate(aAmqpTemplate);
-    return amqpMessenger;
+  AmqpMessageBroker amqpMessageBroker (AmqpTemplate aAmqpTemplate) {
+    AmqpMessageBroker amqpMessageBroker = new AmqpMessageBroker();
+    amqpMessageBroker.setAmqpTemplate(aAmqpTemplate);
+    return amqpMessageBroker;
   }
   
   @Bean 

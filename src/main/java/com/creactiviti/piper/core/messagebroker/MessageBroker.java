@@ -13,20 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.creactiviti.piper.core.messenger;
+package com.creactiviti.piper.core.messagebroker;
 
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
-public interface Queues {
+/**
+ * <p>Abstraction for sending messages between the various componentes of the application. 
+ * Implementations are responsible for the guranteed delivery of the message.</p>
+ * 
+ * @author Arik Cohen
+ * @since Jun 18, 2016
+ */
+public interface MessageBroker {
 
-  static final String COMPLETIONS = "completions";
-  static final String ERRORS      = "errors";
-  static final String JOBS        = "jobs";
-  static final String SUBFLOWS    = "subflows";
-  static final String EXECUTE     = "execute";
-  static final String DLQ         = "dlq";
-  static final String CONTROL     = "x.control." + UUIDGenerator.generate();
-  static final String TASKS       = "tasks";
-  static final String EVENTS      = "events";
+  /**
+   * 
+   * @param aRoutingKey
+   *          a string representaiton used for routing the message 
+   *          to the appropriate destination.
+   * @param aMessage
+   *          The message to send.
+   */
+  void send (String aRoutingKey, Object aMessage);
   
 }

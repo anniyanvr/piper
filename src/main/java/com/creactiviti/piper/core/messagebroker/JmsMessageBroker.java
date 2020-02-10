@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.creactiviti.piper.core.messenger;
+package com.creactiviti.piper.core.messagebroker;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 
 import com.creactiviti.piper.core.error.Retryable;
 
-public class JmsMessenger implements Messenger {
+public class JmsMessageBroker implements MessageBroker {
 
   private JmsTemplate jmsTemplate;
 

@@ -15,8 +15,8 @@
  */
 package com.creactiviti.piper.core.event;
 
-import com.creactiviti.piper.core.messenger.Messenger;
-import com.creactiviti.piper.core.messenger.Queues;
+import com.creactiviti.piper.core.messagebroker.MessageBroker;
+import com.creactiviti.piper.core.messagebroker.Queues;
 
 /**
  * @author Arik Cohen
@@ -24,15 +24,15 @@ import com.creactiviti.piper.core.messenger.Queues;
  */
 public class DistributedEventPublisher implements EventPublisher {
 
-  private final Messenger messenger;
+  private final MessageBroker messageBroker;
   
-  public DistributedEventPublisher (Messenger aMessenger) {
-    messenger = aMessenger;
+  public DistributedEventPublisher (MessageBroker aMessageBroker) {
+    messageBroker = aMessageBroker;
   }
   
   @Override
   public void publishEvent(PiperEvent aEvent) {
-    messenger.send(Queues.EVENTS, aEvent);
+    messageBroker.send(Queues.EVENTS, aEvent);
   }
 
 }

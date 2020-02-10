@@ -14,7 +14,7 @@
  * limitations under the License.
  */package com.creactiviti.piper.config;
 
-public class MessengerProperties {
+public class MessageBrokerProperties {
 
   private String provider;
   
