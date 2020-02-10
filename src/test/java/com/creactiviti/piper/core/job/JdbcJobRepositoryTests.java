@@ -5,16 +5,20 @@ import static java.time.temporal.ChronoUnit.DAYS;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.creactiviti.piper.core.Page;
 import com.creactiviti.piper.core.task.JdbcTaskExecutionRepository;
@@ -22,12 +26,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 
-@RunWith(SpringRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@SpringBootTest
 public class JdbcJobRepositoryTests {
 
   @Autowired
   private DataSource dataSource; 
+  
+  @Autowired
+  private PlatformTransactionManager txManager;
+
+  private TransactionStatus transaction;
+  
+  @BeforeEach
+  public void before () {
+    transaction = txManager.getTransaction(new DefaultTransactionDefinition());
+  }
+  
+  @AfterEach
+  public void after () {
+    txManager.rollback(transaction);
+  }
   
   @Test
   public void test1 () {
@@ -41,18 +59,20 @@ public class JdbcJobRepositoryTests {
     
     int pageTotal = jobRepository.findAll(1).getNumber();
     
+    String id = UUID.randomUUID().toString();
+    
     SimpleJob job = new SimpleJob();
     job.setPipelineId("demo:1234");
-    job.setId("1");
+    job.setId(id);
     job.setCreateTime(new Date());
     job.setStatus(JobStatus.CREATED);
     jobRepository.create(job);
     
     Page<Job> all = jobRepository.findAll(1);
-    Assert.assertEquals(pageTotal+1,all.getSize());
+    Assertions.assertEquals(pageTotal+1,all.getSize());
     
-    Job one = jobRepository.findOne("1");
-    Assert.assertNotNull(one);
+    Job one = jobRepository.findOne(id);
+    Assertions.assertNotNull(one);
   }
   
   @Test
@@ -65,28 +85,31 @@ public class JdbcJobRepositoryTests {
     jobRepository.setJdbcOperations(new NamedParameterJdbcTemplate(dataSource));
     jobRepository.setJobTaskRepository(taskRepository);
     
+    String id = UUID.randomUUID().toString();
+    
     SimpleJob job = new SimpleJob();
-    job.setId("1");
+    job.setId(id);
     job.setPipelineId("demo:1234");
     job.setCreateTime(new Date());
     job.setStatus(JobStatus.CREATED);
     jobRepository.create(job);
     
-    Job one = jobRepository.findOne("1");
+    Job one = jobRepository.findOne(id);
     
     SimpleJob mjob = new SimpleJob(one);
     mjob.setStatus(JobStatus.FAILED);
     
     // test immutability
-    Assert.assertNotEquals(mjob.getStatus().toString(),one.getStatus().toString());  
+    Assertions.assertNotEquals(mjob.getStatus().toString(),one.getStatus().toString());  
     
     jobRepository.merge(mjob);
-    one = jobRepository.findOne("1");
-    Assert.assertEquals("FAILED",one.getStatus().toString());  
+    one = jobRepository.findOne(id);
+    Assertions.assertEquals("FAILED",one.getStatus().toString());  
   }
 
   @Test
   public void test3 () {
+    
     // arrange
     JdbcTaskExecutionRepository taskRepository = new JdbcTaskExecutionRepository();
     taskRepository.setJdbcOperations(new NamedParameterJdbcTemplate(dataSource));
@@ -95,6 +118,8 @@ public class JdbcJobRepositoryTests {
     JdbcJobRepository jobRepository = new JdbcJobRepository();
     jobRepository.setJdbcOperations(new NamedParameterJdbcTemplate(dataSource));
     jobRepository.setJobTaskRepository(taskRepository);
+    
+    int todayJobsOriginally = jobRepository.countCompletedJobsToday();
 
     SimpleJob completedJobYesterday = new SimpleJob();
     completedJobYesterday.setId("1");
@@ -127,7 +152,7 @@ public class JdbcJobRepositoryTests {
     int todayJobs = jobRepository.countCompletedJobsToday();
 
     // assert
-    Assert.assertEquals(5, todayJobs);
+    Assertions.assertEquals(5+todayJobsOriginally, todayJobs);
   }
 
   @Test
@@ -143,7 +168,7 @@ public class JdbcJobRepositoryTests {
 
     for(int i = 0; i < 5; i++) {
         SimpleJob completedJobYesterday = new SimpleJob();
-        completedJobYesterday.setId("1."+i);
+        completedJobYesterday.setId(UUID.randomUUID() + "."+i);
         completedJobYesterday.setPipelineId("demo:1234");
         completedJobYesterday.setCreateTime(Date.from(Instant.now().minus(2, DAYS)));
         completedJobYesterday.setStatus(JobStatus.COMPLETED);
@@ -153,14 +178,14 @@ public class JdbcJobRepositoryTests {
     }
 
     SimpleJob runningJobYesterday = new SimpleJob();
-    runningJobYesterday.setId("2");
+    runningJobYesterday.setId(UUID.randomUUID().toString());
     runningJobYesterday.setPipelineId("demo:1234");
     runningJobYesterday.setCreateTime(Date.from(Instant.now().minus(1, DAYS)));
     runningJobYesterday.setStatus(JobStatus.STARTED);
     jobRepository.create(runningJobYesterday);
 
     SimpleJob completedJobToday = new SimpleJob();
-    completedJobToday.setId("3");
+    completedJobToday.setId(UUID.randomUUID().toString());
     completedJobToday.setPipelineId("demo:1234");
     completedJobToday.setCreateTime(Date.from(Instant.now().minus(1, DAYS)));
     completedJobToday.setStatus(JobStatus.COMPLETED);
@@ -172,7 +197,7 @@ public class JdbcJobRepositoryTests {
     int yesterdayJobs = jobRepository.countCompletedJobsYesterday();
 
     // assert
-    Assert.assertEquals(5, yesterdayJobs);
+    Assertions.assertEquals(5, yesterdayJobs);
   }
 
   private ObjectMapper createObjectMapper() {

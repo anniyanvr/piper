@@ -9,13 +9,12 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.creactiviti.piper.core.context.JdbcContextRepository;
 import com.creactiviti.piper.core.job.JdbcJobRepository;
@@ -36,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.ImmutableMap;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest
 public class CoordinatorTests {
 
   @Autowired
@@ -112,7 +111,7 @@ public class CoordinatorTests {
     
     Job completedJob = jobRepository.findOne(job.getId());
     
-    Assert.assertEquals(JobStatus.COMPLETED, completedJob.getStatus());
+    Assertions.assertEquals(JobStatus.COMPLETED, completedJob.getStatus());
   }
 
   private ObjectMapper createObjectMapper() {
@@ -122,11 +121,13 @@ public class CoordinatorTests {
     return objectMapper;
   }
   
-  @Test(expected=IllegalArgumentException.class)
+  @Test
   public void testRequiredParams () {
-    Coordinator coordinator = new Coordinator ();
-    coordinator.setPipelineRepository(new ResourceBasedPipelineRepository());
-    coordinator.create(MapObject.of(Collections.singletonMap("pipelineId","demo/hello")));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      Coordinator coordinator = new Coordinator ();
+      coordinator.setPipelineRepository(new ResourceBasedPipelineRepository());
+      coordinator.create(MapObject.of(Collections.singletonMap("pipelineId","demo/hello")));
+    });
   }
   
 }

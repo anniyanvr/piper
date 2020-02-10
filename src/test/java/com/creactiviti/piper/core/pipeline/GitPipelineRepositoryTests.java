@@ -4,8 +4,8 @@ package com.creactiviti.piper.core.pipeline;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
@@ -17,7 +17,7 @@ public class GitPipelineRepositoryTests {
   public void test1 () {
     GitPipelineRepository r = new GitPipelineRepository(new DummyGitOperations());
     List<Pipeline> findAll = r.findAll();
-    Assert.assertEquals("demo/hello/123",findAll.iterator().next().getId());
+    Assertions.assertEquals("demo/hello/123",findAll.iterator().next().getId());
   }
   
   private static class DummyGitOperations implements GitOperations {
