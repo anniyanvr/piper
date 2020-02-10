@@ -1,5 +1,10 @@
 #!/bin/bash
 
+docker rm -f postgres
+docker rm -f piper
+
+docker run --name postgres -e POSTGRES_PASSWORD=piper -e POSTGRES_USER=piper -e POSTGRES_DB=piper -d -p 5432:5432 postgres:11
+
 docker run \
        --name piper \
        --link postgres:postgres \
