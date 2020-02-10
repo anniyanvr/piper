@@ -42,13 +42,14 @@ public class PipelineRepositoryConfiguration {
      
   @Bean
   @Order(1)
-  ResourceBasedPipelineRepository resourceBasedPipelineRepository () {
+  @ConditionalOnProperty(name="piper.pipeline-repository.classpath.enabled", havingValue="true")
+  ResourceBasedPipelineRepository classpathPipelineRepository () {
     return new ResourceBasedPipelineRepository();
   }
   
   @Bean
   @Order(2)
-  @ConditionalOnProperty(name="piper.pipeline-repository.filesystem.enabled",havingValue="true")
+  @ConditionalOnProperty(name="piper.pipeline-repository.filesystem.enabled", havingValue="true")
   ResourceBasedPipelineRepository fileSystemBasedPipelineRepository (@Value("${piper.pipeline-repository.filesystem.location-pattern}") String aBasePath) {
     return new ResourceBasedPipelineRepository(String.format("file:%s", aBasePath));
   }

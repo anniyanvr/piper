@@ -52,6 +52,8 @@ public class JGitTemplate implements GitOperations {
   private Logger logger = LoggerFactory.getLogger(getClass());
 
   private static final String LATEST = "latest";
+  
+  private static final String HIDDEN_FILE_PREFIX = ".";
 
   private File repositoryDir = null;
   
@@ -90,7 +92,7 @@ public class JGitTemplate implements GitOperations {
       treeWalk.setRecursive(true);
       while (treeWalk.next()) {
         String path = treeWalk.getPathString();        
-        if(searchPaths.stream().anyMatch((sp)->path.startsWith(sp))) {
+        if(!path.startsWith(HIDDEN_FILE_PREFIX) &&  (searchPaths.size() == 0 || searchPaths.stream().anyMatch((sp)->path.startsWith(sp)))) {
           ObjectId objectId = treeWalk.getObjectId(0);
           logger.debug("Loading {} [{}]",path,objectId.name());
           resources.add(readBlob(aRepository, path.substring(0, path.indexOf('.')), objectId.name()));
