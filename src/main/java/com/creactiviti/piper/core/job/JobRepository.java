@@ -23,6 +23,8 @@ public interface JobRepository {
   
   Job findOne (String aId);
   
+  Job findLatest ();
+  
   void create (Job aJob);
   
   Job merge (Job aJob);

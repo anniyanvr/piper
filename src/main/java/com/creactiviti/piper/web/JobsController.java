@@ -57,6 +57,9 @@ public class JobsController {
   
   @GetMapping(value="/jobs/{id}")
   public Job get (@PathVariable("id")String aJobId) {
+    if(aJobId.equals("latest")) {
+      
+    }
     Job job = jobRepository.findOne (aJobId);
     Assert.notNull(job,"Unknown job: " + aJobId);
     return job;

@@ -46,18 +46,23 @@ public class JdbcJobRepository implements JobRepository {
   @Override
   public Job findOne(String aId) {
     List<Job> query = jdbc.query("select * from job where id = :id", Collections.singletonMap("id", aId),this::jobRowMappper);
-    if(query.size() == 1) {
-      return query.get(0);
-    }
-    return null;
+    Assert.isTrue(query.size() == 1, "exected to find 1 job, found " + query.size());
+    return query.get(0);
+  }
+  
+  @Override
+  public Job findLatest() {
+    List<Job> query = jdbc.query("select * from job where id = (select id from job order by create_time desc limit 1)", this::jobRowMappper);
+    Assert.isTrue(query.size() == 1, "exected to find 1 job, found " + query.size());
+    return query.get(0);
   }
   
   @Override
   public Job findJobByTaskId(String aTaskId) {
     Map<String, String> params = Collections.singletonMap("id", aTaskId);
     List<Job> list = jdbc.query("select * from job j where j.id = (select job_id from task_execution jt where jt.id=:id)", params, this::jobRowMappper);
-    Assert.isTrue(list.size() < 2, "expecting 1 result, got: " + list.size());
-    return list.size() == 1 ? list.get(0) : null;
+    Assert.isTrue(list.size() == 1, "exected to find 1 job, found " + list.size());
+    return list.get(0);
   }
 
   @Override
