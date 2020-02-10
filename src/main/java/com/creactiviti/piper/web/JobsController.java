@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,11 +57,9 @@ public class JobsController {
   @GetMapping(value="/jobs/{id}")
   public Job get (@PathVariable("id")String aJobId) {
     if(aJobId.equals("latest")) {
-      
+      return jobRepository.findLatest();
     }
-    Job job = jobRepository.findOne (aJobId);
-    Assert.notNull(job,"Unknown job: " + aJobId);
-    return job;
+    return jobRepository.findOne (aJobId);
   }
   
   @ExceptionHandler(IllegalArgumentException.class)
