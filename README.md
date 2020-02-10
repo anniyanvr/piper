@@ -426,9 +426,8 @@ piper.pipeline-repository.filesystem.location-pattern=$HOME/piper/**/*.yaml
 # persistence
 piper.persistence.provider=jdbc
 # data source
-spring.datasource.initialize=true # Create the database using 'schema-{platform}.sql'.
+spring.datasource.initialization-mode=never # Initializes the database using 'schema.sql'.
 spring.datasource.name= # Name of the datasource.
-spring.datasource.platform=h2 # Platform to use in the DDL or DML scripts. Supports h2 and postgres.
 spring.datasource.url= # Url of the database. Supports jdbc:// and mongdb://
 spring.datasource.username= # Login user of the database (for jdbc)
 spring.datasource.password= # Login password of the database (for jdbc)
