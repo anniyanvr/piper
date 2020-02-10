@@ -19,11 +19,14 @@ import java.util.List;
 
 import com.creactiviti.piper.core.pipeline.IdentifiableResource;
 
+/**
+ * @author Arik Cohen
+ * @since June 13, 2018
+ */
 public interface GitOperations {
   
-
-  List<IdentifiableResource> getHeadFiles (String aUrl, String aBranch, String... aSearchPath);
+  List<IdentifiableResource> getHeadFiles ();
   
-  IdentifiableResource getFile (String aUrl, String aBranch, String aFileId);
+  IdentifiableResource getFile (String aFileId);
 
 }
