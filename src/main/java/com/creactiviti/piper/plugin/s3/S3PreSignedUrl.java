@@ -11,6 +11,9 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
 /**
+ * Presign an S3 Object action (GET default) so that it can be executed at a 
+ * later time without requiring additional signing or authentication.
+ * 
  * @author Arik Cohen
  * @since Feb, 10 2020
  */
