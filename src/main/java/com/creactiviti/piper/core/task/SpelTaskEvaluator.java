@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -133,6 +134,8 @@ public class SpelTaskEvaluator implements TaskEvaluator {
           return concat();
         case "flatten":
           return flatten();
+        case "uuid":
+          return uuid();          
         default:
           return null;
       }
@@ -141,6 +144,12 @@ public class SpelTaskEvaluator implements TaskEvaluator {
   
   private TypedValue systemProperty (EvaluationContext aContext, Object aTarget, Object... aArgs) throws AccessException {
     return new TypedValue(System.getProperty((String)aArgs[0]));
+  }
+  
+  private MethodExecutor uuid () {
+    return (ctx,target,args) -> {
+      return new TypedValue(UUID.randomUUID().toString().replace("-", ""));
+    };
   }
   
   private MethodExecutor range () {

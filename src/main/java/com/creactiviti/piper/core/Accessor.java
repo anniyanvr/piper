@@ -15,6 +15,7 @@
  */
 package com.creactiviti.piper.core;
 
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -293,6 +294,18 @@ public interface Accessor {
    *         converting as needed.
    */
   int getInteger (Object aKey, int aDefaultValue);
+  
+  /**
+   * Return the {@link Duration} value associated with the given
+   * key -- converting as necessary.
+   * 
+   * @param aKey
+   *          The key associated with the desired value.
+   * @return The duration value associated with the given key --
+   *         converting to {@link Duration} as needed.
+   * @throws IllegalArgumentException if no value is associated with the given key.
+   */
+  Duration getRequiredDuration (Object aKey);
   
   /**
    * Return the {@link Boolean} value associated with the given

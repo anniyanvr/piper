@@ -15,22 +15,22 @@
  */
 package com.creactiviti.piper.core.task;
 
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Map;
+
 import com.creactiviti.piper.core.DSL;
 import com.creactiviti.piper.core.error.Error;
 import com.creactiviti.piper.core.error.ErrorObject;
 import com.creactiviti.piper.core.error.Prioritizable;
 import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
-
 
 public class SimpleTaskExecution extends SimplePipelineTask implements TaskExecution {
 
   private SimpleTaskExecution () {
-    this(Collections.EMPTY_MAP);
+    this(Collections.emptyMap());
   }
   
   private SimpleTaskExecution (TaskExecution aSource) {

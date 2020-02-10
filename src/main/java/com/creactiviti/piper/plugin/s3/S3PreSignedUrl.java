@@ -1,7 +1,5 @@
 package com.creactiviti.piper.plugin.s3;
 
-import java.time.Duration;
-
 import org.springframework.stereotype.Component;
 
 import com.creactiviti.piper.core.task.Task;
@@ -41,7 +39,7 @@ class S3PreSignedUrl implements TaskHandler<String> {
     }
     
     PresignedGetObjectRequest request =
-        presigner.presignGetObject(z -> z.signatureDuration(Duration.ofSeconds(aTask.getInteger("duration", 60)))
+        presigner.presignGetObject(z -> z.signatureDuration(aTask.getRequiredDuration("duration"))
                 .getObjectRequest(por -> por.bucket(bucketName).key(key)));
     
     return request.url().toString();
