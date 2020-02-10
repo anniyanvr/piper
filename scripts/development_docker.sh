@@ -9,6 +9,7 @@ docker run \
        --name piper \
        --link postgres:postgres \
        -e PIPER_MESSAGE_BROKER_PROVIDER=jms \
+       -e SPRING_DATASOURCE_INITIALIZATION_MODE=always \
        -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/piper \
        -e PIPER_COORDINATOR_ENABLED=true \
        -e PIPER_WORKER_ENABLED=true \
