@@ -46,12 +46,12 @@ public class CoordinatorTests {
     Worker worker = new Worker();
     Coordinator coordinator = new Coordinator ();
    
-    SynchMessageBroker messageBroker = new SynchMessageBroker();
-    messageBroker.receive(Queues.COMPLETIONS, (o)->coordinator.complete((TaskExecution)o));
-    messageBroker.receive(Queues.JOBS, (o)->coordinator.start((Job)o));
+    SynchMessageBroker messenger = new SynchMessageBroker();
+    messenger.receive(Queues.COMPLETIONS, (o)->coordinator.complete((TaskExecution)o));
+    messenger.receive(Queues.JOBS, (o)->coordinator.start((Job)o));
     
     
-    worker.setMessageBroker(messageBroker);
+    worker.setMessageBroker(messenger);
     worker.setEventPublisher((e)->{});
     DefaultTaskHandlerResolver taskHandlerResolver = new DefaultTaskHandlerResolver();
     
@@ -84,9 +84,9 @@ public class CoordinatorTests {
     coordinator.setPipelineRepository(new ResourceBasedPipelineRepository());
     coordinator.setJobTaskRepository(taskRepository);
     
-    SynchMessageBroker coordinatorMessageBroker = new SynchMessageBroker();
-    coordinatorMessageBroker.receive(Queues.TASKS, (o)->worker.handle((TaskExecution)o));
-    WorkTaskDispatcher taskDispatcher = new WorkTaskDispatcher(coordinatorMessageBroker);
+    SynchMessageBroker coordinatorMessenger = new SynchMessageBroker();
+    coordinatorMessenger.receive(Queues.TASKS, (o)->worker.handle((TaskExecution)o));
+    WorkTaskDispatcher taskDispatcher = new WorkTaskDispatcher(coordinatorMessenger);
     coordinator.setTaskDispatcher(taskDispatcher);
     coordinator.setEventPublisher((e)->{});
     
@@ -105,7 +105,7 @@ public class CoordinatorTests {
     taskCompletionHandler.setPipelineRepository(new ResourceBasedPipelineRepository());
     taskCompletionHandler.setEventPublisher((e)->{});
     coordinator.setTaskCompletionHandler(taskCompletionHandler);
-    coordinator.setMessageBroker(coordinatorMessageBroker);
+    coordinator.setMessageBroker(messenger);
         
     Job job = coordinator.create(MapObject.of(ImmutableMap.of("pipelineId","demo/hello","inputs",Collections.singletonMap("yourName","me"))));
     
