@@ -19,6 +19,7 @@ docker run \
        -e PIPER_PIPELINE_REPOSITORY_GIT_SEARCH_PATHS=demo/,video/ \
        -e PIPER_PIPELINE_REPOSITORY_GIT_USERNAME= \
        -e PIPER_PIPELINE_REPOSITORY_GIT_PASSWORD= \
+       # -v $HOME/.aws:/root/.aws  # inherit host's AWS creds
        -d \
        -p 5454:8080 \
        creactiviti/piper:2
