@@ -36,7 +36,6 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +48,6 @@ import com.creactiviti.piper.core.messenger.AmqpMessenger;
 import com.creactiviti.piper.core.messenger.Exchanges;
 import com.creactiviti.piper.core.messenger.Queues;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rabbitmq.http.client.Client;
 
 @Configuration
 @EnableConfigurationProperties(PiperProperties.class)
@@ -69,9 +67,6 @@ public class AmqpMessengerConfiguration implements RabbitListenerConfigurer {
   private ObjectMapper objectMapper;
   
   @Autowired
-  private RabbitProperties rabbitProperties;
-  
-  @Autowired
   private PiperProperties properties;
   
   @Autowired
@@ -79,22 +74,9 @@ public class AmqpMessengerConfiguration implements RabbitListenerConfigurer {
   
   private final Logger logger = LoggerFactory.getLogger(getClass());
   
-  private static final String DEFAULT_USER = "guest";
-  private static final String DEFAULT_PASS = "guest";
-  private static final String DEFAULT_HOST = "localhost";
-  
   @Bean
   RabbitAdmin admin (ConnectionFactory aConnectionFactory) {
     return new RabbitAdmin(aConnectionFactory);
-  }
-  
-  @Bean
-  Client rabbitManagementTemplate () throws Exception {
-    String username = rabbitProperties.determineUsername();
-    String password = rabbitProperties.determinePassword();
-    String host = rabbitProperties.determineHost();
-    String url = String.format("http://%s:%s@%s:15672/api/",username!=null?username:DEFAULT_USER,username!=null?password:DEFAULT_PASS,host!=null?host:DEFAULT_HOST);
-    return new Client(url);
   }
   
   @Bean

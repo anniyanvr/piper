@@ -1,29 +1,28 @@
 package com.creactiviti.piper.core.job;
 
-import com.creactiviti.piper.core.Page;
-import com.creactiviti.piper.core.task.JdbcTaskExecutionRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import static java.time.temporal.ChronoUnit.DAYS;
 
-import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 
-import static java.time.temporal.ChronoUnit.DAYS;
+import javax.sql.DataSource;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.creactiviti.piper.core.Page;
+import com.creactiviti.piper.core.task.JdbcTaskExecutionRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 
 @RunWith(SpringRunner.class)
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class JdbcJobRepositoryTests {
 
