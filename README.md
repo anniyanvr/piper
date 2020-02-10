@@ -424,7 +424,7 @@ piper.pipeline-repository.filesystem.enabled=true
 # location of pipelines on the file system.
 piper.pipeline-repository.filesystem.location-pattern=$HOME/piper/**/*.yaml
 # persistence
-piper.persistence.provider= # Persistence provider to use. Supports jdbc (for h2 and postgresql database) and mongo.
+piper.persistence.provider= # Persistence provider to use. Supports jdbc (for h2 and postgresql database).
 # data source
 spring.datasource.initialize=true # Create the database using 'schema-{platform}.sql'.
 spring.datasource.name= # Name of the datasource.
