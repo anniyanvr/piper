@@ -60,15 +60,15 @@ class Ls implements TaskHandler<List<Ls.FileInfo>> {
       file = aFile;
     }
 
-    public String getFileName () {
+    String getFileName () {
       return file.getFileName().toString();
     }
     
-    public String getFullPath () {
+    String getFullPath () {
       return file.toString();
     }
     
-    public String getRelativePath () {
+    String getRelativePath () {
       return root.relativize(file).toString();
     }
     
