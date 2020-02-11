@@ -29,7 +29,7 @@ import com.creactiviti.piper.core.error.Prioritizable;
 
 public class SimpleTaskExecution extends SimplePipelineTask implements TaskExecution {
 
-  private SimpleTaskExecution () {
+  public SimpleTaskExecution () {
     this(Collections.emptyMap());
   }
   
