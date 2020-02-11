@@ -104,7 +104,6 @@ public class AmqpMessageBrokerConfiguration implements RabbitListenerConfigurer 
   @Bean
   Exchange tasksExchange () {
     return ExchangeBuilder.directExchange(Exchanges.TASKS)
-                          .delayed()
                           .durable(true)
                           .build();
   }
