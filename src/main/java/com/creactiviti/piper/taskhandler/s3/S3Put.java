@@ -11,17 +11,16 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest.Builder;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 /**
  * @author Arik Cohen
  * @since Feb, 11 2020
  */
 @Component("s3/put")
-class S3Put implements TaskHandler<PutObjectResponse> {
+class S3Put implements TaskHandler<Object> {
 
   @Override
-  public PutObjectResponse handle (Task aTask) throws Exception {
+  public Object handle (Task aTask) throws Exception {
     
     S3Client s3 = S3Client.builder().build();
     
@@ -48,12 +47,12 @@ class S3Put implements TaskHandler<PutObjectResponse> {
       putObjectRequestBuilder.acl(ObjectCannedACL.fromValue(aTask.getString("acl")));
     }
     
-    PutObjectResponse response = s3.putObject(
+    s3.putObject(
       putObjectRequestBuilder.build(),
       Paths.get(aTask.getRequiredString("filepath"))
     );
     
-    return response;
+    return null;
   }
 
 }
