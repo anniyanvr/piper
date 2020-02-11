@@ -27,9 +27,13 @@ import com.creactiviti.piper.core.task.Task;
 import com.creactiviti.piper.core.task.TaskHandler;
 
 /**
- * Simple worker which performs the download of a file (given its URL).
+ * Copies bytes from the URL source to a file destination. The directories up to destination 
+ * will be created if they don't already exist. destination will be overwritten if it 
+ * already exists.
  *
  * @since Sep 06, 2018
+ * @author Chris Camel
+ * @author Arik Cohen
  */
 @Component("io/download")
 class Download implements TaskHandler<Object> {
