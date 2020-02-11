@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.creactiviti.piper.core.uuid;
+package com.creactiviti.piper.core;
 
 import java.util.UUID;
 
-public final class UUIDGenerator {
+public final class GUID {
 
-  private UUIDGenerator () {}
+  private GUID () {}
   
   public static String generate () {
     return UUID.randomUUID().toString().replaceAll("-", "");

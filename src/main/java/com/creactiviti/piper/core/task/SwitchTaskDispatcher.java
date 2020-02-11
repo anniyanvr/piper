@@ -22,13 +22,13 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 import com.creactiviti.piper.core.Accessor;
+import com.creactiviti.piper.core.GUID;
 import com.creactiviti.piper.core.MapObject;
 import com.creactiviti.piper.core.SwitchTaskCompletionHandler;
 import com.creactiviti.piper.core.context.ContextRepository;
 import com.creactiviti.piper.core.context.MapContext;
 import com.creactiviti.piper.core.messagebroker.MessageBroker;
 import com.creactiviti.piper.core.messagebroker.Queues;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
 /**
  * @author Arik Cohen
@@ -62,7 +62,7 @@ public class SwitchTaskDispatcher implements TaskDispatcher<TaskExecution>, Task
       if(tasks.size() > 0) {
         MapObject task = tasks.get(0);
         SimpleTaskExecution execution = SimpleTaskExecution.createFromMap(task);
-        execution.setId(UUIDGenerator.generate());
+        execution.setId(GUID.generate());
         execution.setStatus(TaskStatus.CREATED);
         execution.setCreateTime(new Date());
         execution.setTaskNumber(1);

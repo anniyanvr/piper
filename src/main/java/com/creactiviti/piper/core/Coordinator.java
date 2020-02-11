@@ -48,7 +48,6 @@ import com.creactiviti.piper.core.task.TaskDispatcher;
 import com.creactiviti.piper.core.task.TaskExecution;
 import com.creactiviti.piper.core.task.TaskExecutionRepository;
 import com.creactiviti.piper.core.task.TaskStatus;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
 /**
  * The central class responsible for coordinating 
@@ -101,7 +100,7 @@ public class Coordinator {
     List<String> tags = (List<String>) aJobParams.get(TAGS);
 
     SimpleJob job = new SimpleJob();
-    job.setId(UUIDGenerator.generate());
+    job.setId(GUID.generate());
     job.setLabel(jobParams.getString(DSL.LABEL,pipeline.getLabel()));
     job.setPriority(jobParams.getInteger(DSL.PRIORITY, Prioritizable.DEFAULT_PRIORITY));
     job.setPipelineId(pipeline.getId());

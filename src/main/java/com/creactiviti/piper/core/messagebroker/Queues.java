@@ -15,7 +15,7 @@
  */
 package com.creactiviti.piper.core.messagebroker;
 
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
+import com.creactiviti.piper.core.GUID;
 
 public interface Queues {
 
@@ -25,7 +25,7 @@ public interface Queues {
   static final String SUBFLOWS    = "subflows";
   static final String EXECUTE     = "execute";
   static final String DLQ         = "dlq";
-  static final String CONTROL     = "x.control." + UUIDGenerator.generate();
+  static final String CONTROL     = "x.control." + GUID.generate();
   static final String TASKS       = "tasks";
   static final String EVENTS      = "events";
   

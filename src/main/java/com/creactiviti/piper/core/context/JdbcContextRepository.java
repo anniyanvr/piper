@@ -25,8 +25,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.creactiviti.piper.core.GUID;
 import com.creactiviti.piper.core.json.JsonHelper;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -41,7 +41,7 @@ public class JdbcContextRepository implements ContextRepository<Context> {
   
   @Override
   public Context push(String aStackId, Context aContext) {
-    jdbc.update("insert into context (id,stack_id,serialized_context,create_time) values (?,?,?,?)",UUIDGenerator.generate(),aStackId,JsonHelper.writeValueAsString(objectMapper, aContext), new Date());
+    jdbc.update("insert into context (id,stack_id,serialized_context,create_time) values (?,?,?,?)",GUID.generate(),aStackId,JsonHelper.writeValueAsString(objectMapper, aContext), new Date());
     return aContext;
   }
 

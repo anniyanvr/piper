@@ -22,11 +22,11 @@ import java.util.Map;
 import org.springframework.util.Assert;
 
 import com.creactiviti.piper.core.DSL;
+import com.creactiviti.piper.core.GUID;
 import com.creactiviti.piper.core.context.ContextRepository;
 import com.creactiviti.piper.core.context.MapContext;
 import com.creactiviti.piper.core.messagebroker.MessageBroker;
 import com.creactiviti.piper.core.messagebroker.Queues;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
 /**
  * A {@link TaskDispatcher} implementation which implements the parallel
@@ -53,7 +53,7 @@ public class ParallelTaskDispatcher implements TaskDispatcher<TaskExecution>, Ta
       counterRepository.set(aTask.getId(), tasks.size());
       for(Map task : tasks) {
         SimpleTaskExecution parallelTask = SimpleTaskExecution.createFromMap(task);
-        parallelTask.setId(UUIDGenerator.generate());
+        parallelTask.setId(GUID.generate());
         parallelTask.setParentId(aTask.getId());
         parallelTask.setStatus(TaskStatus.CREATED);
         parallelTask.setJobId(aTask.getJobId());

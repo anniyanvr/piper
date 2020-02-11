@@ -21,10 +21,10 @@ import java.util.Date;
 import java.util.Map;
 
 import com.creactiviti.piper.core.DSL;
+import com.creactiviti.piper.core.GUID;
 import com.creactiviti.piper.core.error.Error;
 import com.creactiviti.piper.core.error.ErrorObject;
 import com.creactiviti.piper.core.error.Prioritizable;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
 
 public class SimpleTaskExecution extends SimplePipelineTask implements TaskExecution {
@@ -204,7 +204,7 @@ public class SimpleTaskExecution extends SimplePipelineTask implements TaskExecu
   public static SimpleTaskExecution createFrom (PipelineTask aTask) {
     SimpleTaskExecution jobTask = new SimpleTaskExecution (aTask);
     jobTask.setCreateTime(new Date());
-    jobTask.setId(UUIDGenerator.generate());
+    jobTask.setId(GUID.generate());
     jobTask.setStatus(TaskStatus.CREATED);
     return jobTask;
   }
@@ -220,7 +220,7 @@ public class SimpleTaskExecution extends SimplePipelineTask implements TaskExecu
    */
   public static SimpleTaskExecution createNewFrom (TaskExecution aJobTask) {
     SimpleTaskExecution mutableJobTask = new SimpleTaskExecution(aJobTask);
-    mutableJobTask.setId(UUIDGenerator.generate());
+    mutableJobTask.setId(GUID.generate());
     mutableJobTask.setCreateTime(new Date());
     mutableJobTask.setStatus(TaskStatus.CREATED);
     mutableJobTask.setError(null);

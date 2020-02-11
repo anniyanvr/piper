@@ -32,7 +32,6 @@ import com.creactiviti.piper.core.task.TaskEvaluator;
 import com.creactiviti.piper.core.task.TaskExecution;
 import com.creactiviti.piper.core.task.TaskExecutionRepository;
 import com.creactiviti.piper.core.task.TaskStatus;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
 /**
  * @author Arik Cohen
@@ -71,7 +70,7 @@ public class SwitchTaskCompletionHandler implements TaskCompletionHandler {
     if(aTaskExecution.getTaskNumber()<tasks.size()) {
       MapObject task = tasks.get(aTaskExecution.getTaskNumber());
       SimpleTaskExecution execution = SimpleTaskExecution.createFromMap(task);
-      execution.setId(UUIDGenerator.generate());
+      execution.setId(GUID.generate());
       execution.setStatus(TaskStatus.CREATED);
       execution.setCreateTime(new Date());
       execution.setTaskNumber(aTaskExecution.getTaskNumber()+1);

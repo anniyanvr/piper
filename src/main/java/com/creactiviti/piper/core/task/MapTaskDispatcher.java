@@ -27,11 +27,11 @@ import java.util.Map;
 import org.springframework.util.Assert;
 
 import com.creactiviti.piper.core.DSL;
+import com.creactiviti.piper.core.GUID;
 import com.creactiviti.piper.core.context.ContextRepository;
 import com.creactiviti.piper.core.context.MapContext;
 import com.creactiviti.piper.core.messagebroker.MessageBroker;
 import com.creactiviti.piper.core.messagebroker.Queues;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
 /**
  * @author Arik Cohen
@@ -72,7 +72,7 @@ public class MapTaskDispatcher implements TaskDispatcher<TaskExecution>, TaskDis
       for(int i=0; i<list.size(); i++) {
         Object item = list.get(i);
         SimpleTaskExecution mapTask = SimpleTaskExecution.createFromMap(iteratee);
-        mapTask.setId(UUIDGenerator.generate());
+        mapTask.setId(GUID.generate());
         mapTask.setParentId(aTask.getId());
         mapTask.setStatus(TaskStatus.CREATED);
         mapTask.setJobId(aTask.getJobId());

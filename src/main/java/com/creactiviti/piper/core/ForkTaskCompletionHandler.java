@@ -31,7 +31,6 @@ import com.creactiviti.piper.core.task.TaskEvaluator;
 import com.creactiviti.piper.core.task.TaskExecution;
 import com.creactiviti.piper.core.task.TaskExecutionRepository;
 import com.creactiviti.piper.core.task.TaskStatus;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
 /**
  * Handles {@link TaskExecution} completions which are the child 
@@ -81,7 +80,7 @@ public class ForkTaskCompletionHandler implements TaskCompletionHandler {
     if(aTaskExecution.getTaskNumber() < branch.size()) {
       Map<String,Object> task = (Map<String, Object>) branch.get(aTaskExecution.getTaskNumber());
       SimpleTaskExecution execution = SimpleTaskExecution.createFromMap(task);
-      execution.setId(UUIDGenerator.generate());
+      execution.setId(GUID.generate());
       execution.setStatus(TaskStatus.CREATED);
       execution.setCreateTime(new Date());
       execution.set("branch", aTaskExecution.getInteger("branch"));

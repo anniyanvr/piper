@@ -24,8 +24,8 @@ import org.springframework.util.Assert;
 
 import com.creactiviti.piper.core.Accessor;
 import com.creactiviti.piper.core.DSL;
+import com.creactiviti.piper.core.GUID;
 import com.creactiviti.piper.core.MapObject;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 import com.google.common.collect.ImmutableMap;
 
 /**
@@ -71,7 +71,7 @@ public class PiperEvent extends MapObject  implements Accessor {
   
   public static PiperEvent of (String aType, Map<String, Object> aProperties) {
     Assert.notNull(aType,"event type must not be null");
-    Map<String,Object> source = new HashMap<>(ImmutableMap.of("id",UUIDGenerator.generate(),"type", aType,"createTime",new Date()));
+    Map<String,Object> source = new HashMap<>(ImmutableMap.of("id",GUID.generate(),"type", aType,"createTime",new Date()));
     source.putAll(aProperties);
     return new PiperEvent(source);
   }

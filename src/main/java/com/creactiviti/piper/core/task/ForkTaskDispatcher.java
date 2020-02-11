@@ -22,11 +22,11 @@ import java.util.Map;
 import org.springframework.util.Assert;
 
 import com.creactiviti.piper.core.ForkTaskCompletionHandler;
+import com.creactiviti.piper.core.GUID;
 import com.creactiviti.piper.core.context.ContextRepository;
 import com.creactiviti.piper.core.context.MapContext;
 import com.creactiviti.piper.core.messagebroker.MessageBroker;
 import com.creactiviti.piper.core.messagebroker.Queues;
-import com.creactiviti.piper.core.uuid.UUIDGenerator;
 
 /**
  * Implements a Fork/Join construct. 
@@ -88,7 +88,7 @@ public class ForkTaskDispatcher implements TaskDispatcher<TaskExecution>, TaskDi
         Assert.isTrue(branch.size()>0, "branch " + i + " does not contain any tasks");
         Map<String,Object> task = (Map<String, Object>) branch.get(0);
         SimpleTaskExecution execution = SimpleTaskExecution.createFromMap(task);
-        execution.setId(UUIDGenerator.generate());
+        execution.setId(GUID.generate());
         execution.setStatus(TaskStatus.CREATED);
         execution.setCreateTime(new Date());
         execution.set("branch", i);
