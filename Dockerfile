@@ -16,8 +16,10 @@ ENV        PATH $PATH:/app/bento4/bin
 
 ENTRYPOINT []
 
-# Run Piper (by default)
-CMD        ["java", "-Xmx1g", "-jar", "-Djava.security.egd=file:/dev/./urandom", "/app/piper.jar"]
+ARG DEPENDENCY=target/dependency
 
-# Get the Piper binaries
-COPY       target/piper-0.0.1-SNAPSHOT.jar /app/piper.jar
+COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY ${DEPENDENCY}/META-INF /app/META-INF
+COPY ${DEPENDENCY}/BOOT-INF/classes /app
+
+CMD ["java","-cp","/app/lib/*:/app","com.creactiviti.piper.PiperApplication"]
