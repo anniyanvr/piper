@@ -24,6 +24,10 @@ public class LsTests {
    task.set("path", rsc.getFile().getAbsolutePath());
    
    List<Ls.FileInfo> results = ls.handle(task);
+   
+   for(Ls.FileInfo fi : results) {
+     System.out.println(fi.getFullPath());
+   }
 
    Set<String> actual = results.stream()
                                 .map(fi->fi.getFileName())
@@ -75,6 +79,29 @@ public class LsTests {
                                 .collect(Collectors.toSet());
    
    Assertions.assertEquals(Set.of("a.txt","b.txt","c.txt"), actual);
+    
+  }
+  
+  @Test
+  public void test4 () throws Exception {
+    
+   Ls ls = new Ls();
+   
+   ClassPathResource rsc = new ClassPathResource("ls-test-folder");
+   
+   SimpleTaskExecution task = new SimpleTaskExecution();
+   
+   task.set("path", rsc.getFile().getAbsolutePath());
+   task.set("glob", "*.txt");
+   task.set("recursive", true);
+   
+   List<Ls.FileInfo> results = ls.handle(task);
+
+   Set<String> actual = results.stream()
+                                .map(fi->fi.getRelativePath())
+                                .collect(Collectors.toSet());
+   
+   Assertions.assertEquals(Set.of("a.txt","b.txt","f1/c.txt"), actual);
     
   }
   

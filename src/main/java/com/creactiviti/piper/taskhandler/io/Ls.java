@@ -26,24 +26,22 @@ class Ls implements TaskHandler<List<Ls.FileInfo>> {
     String path = aTask.getRequiredString("path");
     String glob = aTask.getString("glob","*.*");
     boolean resursive = aTask.getBoolean("recursive", false);
-    return doLs (path, glob, resursive);
+    return doLs (Paths.get(path), Paths.get(path), glob, resursive);
   }
-  
-  private List<Ls.FileInfo> doLs (String aPath, String aGlob, boolean aRecursive) throws Exception {
-    Path dir = Paths.get(aPath);
-    
+ 
+  private List<Ls.FileInfo> doLs (Path aRoot, Path aPath, String aGlob, boolean aRecursive) throws Exception {
     PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:"+aGlob);
 
     List<FileInfo> result = new ArrayList<>();
 
-    try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+    try (DirectoryStream<Path> stream = Files.newDirectoryStream(aPath)) {
       for (Path file : stream) {
         if(Files.isDirectory(file) && aRecursive) {
-          result.addAll(doLs(file.toString(), aGlob, aRecursive));
+          result.addAll(doLs(aRoot, file, aGlob, aRecursive));
         }
         else {
           if(pathMatcher.matches(file.getFileName())) {
-            result.add(new FileInfo(file));
+            result.add(new FileInfo(aRoot,file));
           }
         }
       }
@@ -54,20 +52,27 @@ class Ls implements TaskHandler<List<Ls.FileInfo>> {
 
   static class FileInfo {
 
-    private final Path path;
+    private final Path file;
+    private final Path root;
     
-    FileInfo (Path aPath) {
-      path = aPath;
+    FileInfo (Path aRoot, Path aFile) {
+      root = aRoot;
+      file = aFile;
     }
 
     public String getFileName () {
-      return path.getFileName().toString();
+      return file.getFileName().toString();
     }
     
     public String getFullPath () {
-      return path.toString();
+      return file.toString();
     }
-
+    
+    public String getRelativePath () {
+      return root.relativize(file).toString();
+    }
+    
   }
-
+  
+  
 }

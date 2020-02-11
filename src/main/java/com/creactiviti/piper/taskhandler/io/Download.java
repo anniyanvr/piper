@@ -45,7 +45,7 @@ class Download implements TaskHandler<Object> {
       new URL(aTask.getRequiredString("url")), 
       new File(aTask.getRequiredString("filepath"))
     );
-   
+    
     return null;
    
   }
