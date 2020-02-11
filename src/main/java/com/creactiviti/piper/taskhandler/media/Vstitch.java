@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.creactiviti.piper.taskhandler.ffmpeg;
+package com.creactiviti.piper.taskhandler.media;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -38,7 +38,7 @@ import com.creactiviti.piper.core.task.TaskHandler;
  * @author Arik Cohen
  * @since Jun 4, 2017
  */
-@Component
+@Component("media/vstitch")
 public class Vstitch implements TaskHandler<Object> {
 
   private final Ffmpeg ffmpeg = new Ffmpeg();

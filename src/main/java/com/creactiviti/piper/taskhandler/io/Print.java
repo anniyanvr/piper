@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import com.creactiviti.piper.core.task.Task;
 import com.creactiviti.piper.core.task.TaskHandler;
 
-@Component
+@Component("print")
 public class Print implements TaskHandler<Object> {
 
   private Logger log = LoggerFactory.getLogger(getClass());

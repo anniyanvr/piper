@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.creactiviti.piper.taskhandler.ffmpeg;
+package com.creactiviti.piper.taskhandler.media;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ import com.creactiviti.piper.core.task.TaskHandler;
  * @author Arik Cohen
  * @since Jan 30, 2017
  */
-@Component
+@Component("media/ffmpeg")
 class Ffmpeg implements TaskHandler<Object> {
 
   private final Logger log = LoggerFactory.getLogger(getClass());

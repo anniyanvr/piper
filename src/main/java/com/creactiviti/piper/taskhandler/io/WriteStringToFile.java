@@ -31,7 +31,7 @@ import com.creactiviti.piper.core.task.TaskHandler;
  * @author Arik Cohen
  * @since Feb, 10 2020
  */
-@Component
+@Component("io/write-string-to-file")
 class WriteStringToFile implements TaskHandler<Object> {
 
   @Override 

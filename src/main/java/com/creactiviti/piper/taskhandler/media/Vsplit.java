@@ -18,7 +18,7 @@
  * Proprietary and confidential
  * Written by Arik Cohen <arik@creactiviti.com>, June 2017
  */
-package com.creactiviti.piper.taskhandler.ffmpeg;
+package com.creactiviti.piper.taskhandler.media;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import com.creactiviti.piper.core.task.Task;
 import com.creactiviti.piper.core.task.TaskHandler;
 import com.google.common.collect.ImmutableMap;
 
-@Component
+@Component("media/vsplit")
 public class Vsplit implements TaskHandler<List<Map<String,Object>>> {
 
   private static final int ONE_SECOND = 1000;

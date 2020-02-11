@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.creactiviti.piper.taskhandler.script;
+package com.creactiviti.piper.taskhandler.cmd;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -37,10 +37,10 @@ import com.creactiviti.piper.core.task.TaskHandler;
  * @author Arik Cohen
  * @since Apr 14, 2017
  */
-@Component
-public class Bash implements TaskHandler<String> {
+@Component("cmd/shell")
+class Shell implements TaskHandler<String> {
 
-  private Logger logger = LoggerFactory.getLogger(getClass());
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
   public String handle(Task aTask) throws Exception {

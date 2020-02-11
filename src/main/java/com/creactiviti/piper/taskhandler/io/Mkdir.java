@@ -16,7 +16,7 @@ import com.creactiviti.piper.core.task.TaskHandler;
  * @author Arik Cohen
  * @since Feb, 10 2020
  */
-@Component
+@Component("io/mkdir")
 class Mkdir implements TaskHandler<Object> {
 
   @Override

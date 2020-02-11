@@ -18,7 +18,7 @@
  * Proprietary and confidential
  * Written by Arik Cohen <arik@creactiviti.com>, June 2017
  */
-package com.creactiviti.piper.taskhandler.ffmpeg;
+package com.creactiviti.piper.taskhandler.media;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 import com.creactiviti.piper.core.task.Task;
 import com.creactiviti.piper.core.task.TaskHandler;
 
-@Component
+@Component("media/vduration")
 public class Vduration implements TaskHandler<Double> {
 
   private Ffprobe ffprobe = new Ffprobe();

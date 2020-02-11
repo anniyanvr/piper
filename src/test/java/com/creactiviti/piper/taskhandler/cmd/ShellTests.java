@@ -1,19 +1,18 @@
-package com.creactiviti.piper.taskhandler.script;
+package com.creactiviti.piper.taskhandler.cmd;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import com.creactiviti.piper.core.task.SimpleTaskExecution;
-import com.creactiviti.piper.taskhandler.script.Bash;
 
-public class BashTests {
+public class ShellTests {
 
   @Test
   public void test1 () throws Exception {
-    Bash bash = new Bash();
+    Shell shell = new Shell();
     ClassPathResource cpr = new ClassPathResource("schema.sql");
-    String output = bash.handle(SimpleTaskExecution.createFrom ("script", "ls -l " + cpr.getFile().getAbsolutePath()));
+    String output = shell.handle(SimpleTaskExecution.createFrom ("script", "ls -l " + cpr.getFile().getAbsolutePath()));
     Assertions.assertTrue(output.contains("target/classes/schema.sql"));
   }
   
