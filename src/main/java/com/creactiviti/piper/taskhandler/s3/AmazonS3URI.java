@@ -48,7 +48,7 @@ final class AmazonS3URI {
    *
    * @param str the URI to parse.
    */
-  public AmazonS3URI(final String str) {
+  AmazonS3URI(final String str) {
     this(str, true);
   }
 
@@ -62,7 +62,7 @@ final class AmazonS3URI {
    * @param str the URI to parse.
    * @param urlEncode true if string should be URL encoded
    */
-  public AmazonS3URI(final String str, final boolean urlEncode) {
+  AmazonS3URI(final String str, final boolean urlEncode) {
     this(URI.create(preprocessUrlStr(str, urlEncode)), urlEncode);
   }
 
@@ -71,7 +71,7 @@ final class AmazonS3URI {
    *
    * @param uri the URI to wrap
    */
-  public AmazonS3URI(final URI uri) {
+  AmazonS3URI(final URI uri) {
     this(uri, false);
   }
 
@@ -204,7 +204,7 @@ final class AmazonS3URI {
   /**
    * @return the S3 URI being parsed
    */
-  public URI getURI() {
+  URI getURI() {
     return uri;
   }
 
@@ -212,7 +212,7 @@ final class AmazonS3URI {
    * @return true if the URI contains the bucket in the path, false if it
    *         contains the bucket in the authority
    */
-  public boolean isPathStyle() {
+  boolean isPathStyle() {
     return isPathStyle;
   }
 
@@ -220,28 +220,28 @@ final class AmazonS3URI {
    * @return the bucket name parsed from the URI (or null if no bucket
    *         specified)
    */
-  public String getBucket() {
+  String getBucket() {
     return bucket;
   }
 
   /**
    * @return the key parsed from the URI (or null if no key specified)
    */
-  public String getKey() {
+  String getKey() {
     return key;
   }
 
   /**
    * @return the version id parsed from the URI (or null if no version specified)
    */
-  public String getVersionId() {
+  String getVersionId() {
     return versionId;
   }
 
   /**
    * @return the region parsed from the URI (or null if no region specified)
    */
-  public String getRegion() {
+  String getRegion() {
     return region;
   }
 
